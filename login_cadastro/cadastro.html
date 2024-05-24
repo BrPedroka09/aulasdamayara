@@ -15,7 +15,7 @@
     .botao-cadastrar {
       background-color: transparent;
       border: none; 
-      color: #0fcf66;
+      color: #007bff;
       cursor: pointer; 
       outline: none; 
     }
@@ -29,8 +29,8 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title text-center">Login</h5>
-          <form action="/login" method="POST">
+          <h5 class="card-title text-center">Cadastro</h5>
+          <form action="/cadastro.html" method="POST" id="cadastroFrom">
             <div class="form-group">
               <label for="username">Usuário</label>
               <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nome do usuário" required>
@@ -39,9 +39,13 @@
               <label for="password">Senha</label>
               <input type="password" class="form-control" id="senha" name="senha" placeholder="senha" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            <div class="form-group" id="confirm-group">
+                <label for="password">Confirmação de senha</label>
+                <input type="password" class="form-control" id="senhaconfirmar" name="senhaconfirmar" placeholder="Repita a senha" required>
+              </div>
+            <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
           </form>
-          <form action="/cadastro" method="GET">
+          <form action="/cadastro.html" method="GET">
             <p>Não possui uma conta? <button type="submit" class="botao-cadastrar"> Cadastre-se aqui</button></p>
           </form>
         </div>
@@ -49,6 +53,28 @@
     </div>
   </div>
 </div>
+
+<script> 
+
+    document.getElementById("cadastroForm").addEventListener("submit", function(event){
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("passwordConfirm").value;
+      const tentativa =  document.getElementById("msg");
+    
+      if(!tentativa){
+        if(password !== confirm){
+          let span = document.createElement("span");
+          span.classList.add('alert');
+          span.textContent = "As senhas não coincidem";
+          span.setAttribute("id", "msg")
+          document.getElementById("confirm-group").appendChild(span);
+          event.preventDefault();
+        }
+      }
+        
+    }) 
+    </script>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

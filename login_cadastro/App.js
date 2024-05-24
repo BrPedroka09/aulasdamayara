@@ -26,6 +26,10 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + '/login.html')
 })
 
+app.get("/cadastro", (req, res) => {
+    res.sendFile(__dirname + '/cadastro.html')
+})
+
 app.post("/login", (req, res)=> { 
     const username = req.body.usuario
     const password = req.body.senha
@@ -36,16 +40,44 @@ app.post("/login", (req, res)=> {
         }else{
             if (results.length > 0){
                 const passwordDB = results[0].password;
-                if(passwordDB == password)
-                console.log('Bem-Vindo!')
-    
+                if(passwordDB == password){
+                    console.log('Bem-Vindo!')
+                }else{
+                    console.log('Senha incorreta')
+                }
             }else{
                 console.log('Usuario não encontrado!')
-            
             }
         }  
+
+        
     })
 })
+
+app.post("/cadastro.html", (req, res)=> { 
+    const username = req.body.usuario
+    const password = req.body.senha
+    const confirm = req.body.senhaconfirmar
+
+    console.log(password)
+    console.log(confirm)
+    
+    if(password === confirm){
+        db.query('insert into user (username, password) values (?, ?);', [username, password], (error, results)=> {
+            if(error){
+                console.log("Erro ao realizar o cadastro", error);
+                
+            } else{
+                console.log("Cadastro realizado com sucesso");
+            }
+        })
+    } else {
+        console.log("Senha não reconhecida")
+    }
+})
+
+    
+
 
 app.listen(port, ()=>{
     console.log(`Servidor rodando no endereço: http://localhost:${port}`)
